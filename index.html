@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>GrowPlay</title>
+</head>
+
+<body>
+
+<h1>🚀 GrowPlay</h1>
+
+<h2>Criar usuário</h2>
+
+<input id="name" placeholder="Nome">
+<input id="email" placeholder="Email">
+
+<button onclick="createUser()">Criar</button>
+
+<h2>Ranking</h2>
+
+<button onclick="loadRanking()">Ver Ranking</button>
+
+<ul id="ranking"></ul>
+
+<script>
+
+const API = "https://growplay-api.onrender.com"
+
+async function createUser(){
+
+const name = document.getElementById("name").value
+const email = document.getElementById("email").value
+
+await fetch(API+"/users",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+name,
+email
+})
+})
+
+alert("Usuário criado!")
+
+}
+
+async function loadRanking(){
+
+const res = await fetch(API+"/ranking")
+
+const users = await res.json()
+
+const list = document.getElementById("ranking")
+
+list.innerHTML=""
+
+users.forEach(user=>{
+
+const li = document.createElement("li")
+
+li.innerText = user.name + " - " + user.points + " pts"
+
+list.appendChild(li)
+
+})
+
+}
+
+</script>
+
+</body>
+
+</html>
